@@ -1,5 +1,5 @@
 {
-  "name": "daily-goal-tracker",
+  "name": "daily-goals-tracker",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ag-grid-react": "^32.1.0",
+    "next": "14.2.5",
+    "public-google-sheets-parser": "^1.5.4",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.5"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "ag-grid-community": "^32.1.0",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "eslint-config-next": "14.2.5",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "sass": "^1.77.8",
+    "typescript": "^5"
   }
 }
