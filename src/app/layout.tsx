@@ -11,10 +11,10 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout: React.FC<PropsWithChildren> = ({ children }) => (
-  <html lang='en'>
-    <body>{children}</body>
-  </html>
-);
-
-export default RootLayout;
+export default function RootLayout({ children }: PropsWithChildren) {
+  return (
+    <html lang='en'>
+      <body>{children}</body>
+    </html>
+  );
+}
