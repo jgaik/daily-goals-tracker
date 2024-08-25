@@ -7,14 +7,14 @@ import { ColDef } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import { useMemo } from 'react';
 
-import { DailyGoalsRow } from '@/types';
+import { typedFetch } from '@/apis';
+import { DailyGoalsRow, GoalInfo } from '@/types';
 
 export type GridProps = {
-  goals: Array<string>;
-  rows: Array<DailyGoalsRow>;
+  goals: Array<GoalInfo>;
 };
 
-export const Grid: React.FC<GridProps> = ({ goals, rows }) => {
+export const Grid: React.FC<GridProps> = ({ goals }) => {
   const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(
     () => [
       {
@@ -29,19 +29,25 @@ export const Grid: React.FC<GridProps> = ({ goals, rows }) => {
           return new Date(`${year}-${month}-${day}`);
         },
       },
-      ...goals.map<ColDef<DailyGoalsRow>>((goal) => ({
-        field: goal,
+      ...goals.map<ColDef<DailyGoalsRow>>(({ Goal }) => ({
+        field: Goal,
+        valueGetter: ({ data }) => data![Goal] === 'TRUE',
+        cellDataType: 'boolean',
       })),
     ],
     [goals]
   );
 
   return (
-    <div className='ag-theme-quartz grid'>
+    <div className='ag-theme-quartz'>
       <AgGridReact<DailyGoalsRow>
-        rowData={rows}
         columnDefs={columnDefs}
         getRowId={({ data }) => data.Date}
+        onGridReady={({ api }) => {
+          typedFetch('get', 'dailyGoals').then((rows) => {
+            api.applyTransaction({ add: rows });
+          });
+        }}
       />
     </div>
   );

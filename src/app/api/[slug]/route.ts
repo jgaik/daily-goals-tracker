@@ -2,8 +2,10 @@ import { EndpointsPath, getEndpoint, Method } from '@/apis';
 
 type ContextType<M extends Method> = {
   params: { slug: EndpointsPath<M> };
+
 };
 
+export const revalidate = 0;
 
 export async function GET(_: Request, context: ContextType<'get'>) {
   const endpoint = getEndpoint('get', context.params.slug);

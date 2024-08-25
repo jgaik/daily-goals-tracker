@@ -17,7 +17,7 @@ export async function typedFetch<M extends Method, P extends EndpointsPath<M>>(
   input: P,
   init?: Exclude<RequestInit, 'method'>
   // @ts-ignore
-): Promise<ReturnType<(typeof ENDPOINTS)[Uppercase<M>][P]>> {
+): ReturnType<(typeof ENDPOINTS)[Uppercase<M>][P]> {
   return fetch(`http://localhost:3000/api/${input as string}`, {
     ...init,
     method,
