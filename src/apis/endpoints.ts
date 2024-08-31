@@ -8,7 +8,7 @@ type GoogleSheetResponse = {
   table: {
     cols: Array<{ id: string; label: string; type: string }>;
     rows: Array<{
-      c: Array<{ f?: string; v: Nullable<string | boolean> } | null>;
+      c: Array<{ v: Nullable<string | boolean> } | null>;
     }>;
   };
 };
@@ -21,7 +21,7 @@ async function parseGoogleSheetResponse(
     .then(
       (res) =>
         JSON.parse(
-          res.match(GOOGLE_SHEETS_RESPONSE_REG_EX)![1]
+          GOOGLE_SHEETS_RESPONSE_REG_EX.exec(res)![1]
         ) as GoogleSheetResponse
     );
 
@@ -31,7 +31,7 @@ async function parseGoogleSheetResponse(
 
   const rows = googleResponse.table.rows.map((row) =>
     row.c.filter(
-      (colRow): colRow is { f?: string; v: string | boolean } =>
+      (colRow): colRow is { v: string | boolean } =>
         !isNil(colRow) && !isNil(colRow.v)
     )
   );
@@ -40,7 +40,7 @@ async function parseGoogleSheetResponse(
     row.reduce(
       (ret, curr, currIdx) => ({
         ...ret,
-        [columns[currIdx]]: curr.f ?? curr.v,
+        [columns[currIdx]]: curr.v,
       }),
       {}
     )

@@ -3,12 +3,13 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ICellRendererParams } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import { useMemo } from 'react';
 
 import { typedFetch } from '@/apis';
 import { DailyGoalsRow, GoalInfo } from '@/types';
+import { dateFromGoogleDate, isNil } from '@/utils';
 
 export type GridProps = {
   goals: Array<GoalInfo>;
@@ -23,17 +24,24 @@ export const Grid: React.FC<GridProps> = ({ goals }) => {
         initialSort: 'desc',
         sortingOrder: ['asc', 'desc'],
         cellDataType: 'date',
-        valueGetter: ({ data }) => {
-          if (!data) return;
-          const [day, month, year] = data.Date.split('/');
-          return new Date(`${year}-${month}-${day}`);
-        },
+        valueGetter: ({ data }) => data && dateFromGoogleDate(data.Date),
       },
-      ...goals.map<ColDef<DailyGoalsRow>>(({ Goal }) => ({
-        field: Goal,
-        valueGetter: ({ data }) => data![Goal] === 'TRUE',
-        cellDataType: 'boolean',
-      })),
+      ...goals.map<ColDef<DailyGoalsRow>>(
+        ({ Goal: goal, 'Starting date': startingDate }) => ({
+          field: goal,
+          valueGetter: ({ data }) =>
+            data &&
+            dateFromGoogleDate(startingDate) <= dateFromGoogleDate(data.Date)
+              ? data[goal]
+              : null,
+          cellRenderer: ({
+            value,
+          }: ICellRendererParams<DailyGoalsRow, boolean>) =>
+            isNil(value) ? null : (
+              <input type='checkbox' checked={value} readOnly />
+            ),
+        })
+      ),
     ],
     [goals]
   );
