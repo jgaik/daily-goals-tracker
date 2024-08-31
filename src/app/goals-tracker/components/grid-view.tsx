@@ -8,14 +8,10 @@ import { AgGridReact } from 'ag-grid-react';
 import { useMemo } from 'react';
 
 import { typedFetch } from '@/apis';
-import { DailyGoalsRow, GoalInfo } from '@/types';
+import { DailyGoalsRow, ViewProps } from '@/types';
 import { dateFromGoogleDate, isNil } from '@/utils';
 
-export type GridProps = {
-  goals: Array<GoalInfo>;
-};
-
-export const Grid: React.FC<GridProps> = ({ goals }) => {
+export const GridView: React.FC<ViewProps> = ({ goals }) => {
   const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(
     () => [
       {

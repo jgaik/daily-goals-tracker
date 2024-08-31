@@ -1,11 +1,11 @@
 import { typedFetch } from '@/apis';
 
-import { Grid } from './components';
+import { ViewSwitcher } from './components';
 
-const GridView: React.FC = async () => {
+const GoalsTracker: React.FC = async () => {
   const goals = await typedFetch('get', 'goalsInfo', { cache: 'no-cache' });
 
-  return <Grid goals={goals} />;
+  return <ViewSwitcher goals={goals} />;
 };
 
-export default GridView;
+export default GoalsTracker;

@@ -10,3 +10,19 @@ export enum Route {
   About = '/about',
   Links = '/links',
 }
+
+export enum View {
+  Native = 'native',
+  AgGrid = 'ag-grid',
+}
+
+export const ViewOptions = [
+  {
+    key: View.Native,
+    label: 'Native',
+  },
+  {
+    key: View.AgGrid,
+    label: 'AgGrid',
+  },
+] as const;
