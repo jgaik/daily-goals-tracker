@@ -13,6 +13,7 @@ import { View } from '@/constants';
 import { ControlsContextProvider } from '@/contexts';
 import { Control, ControlContextValue, Controls } from '@/types';
 
+import { ThemeControl } from './theme-control';
 import { ViewControl } from './view-control';
 
 export const ControlsProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -53,6 +54,7 @@ export const ControlsProvider: React.FC<PropsWithChildren> = ({ children }) => {
             }
           />
         )}
+        <ThemeControl />
         Control Bar
       </div>
       <ControlsContextProvider value={contextValue}>

@@ -8,10 +8,13 @@ import { AgGridReact } from 'ag-grid-react';
 import { useMemo } from 'react';
 
 import { typedFetch } from '@/apis';
+import { useDarkMode } from '@/hooks';
 import { DailyGoalsRow, ViewProps } from '@/types';
 import { dateFromGoogleDate, isNil } from '@/utils';
 
 export const GridView: React.FC<ViewProps> = ({ goals }) => {
+  const isDarkMode = useDarkMode();
+
   const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(
     () => [
       {
@@ -42,8 +45,10 @@ export const GridView: React.FC<ViewProps> = ({ goals }) => {
     [goals]
   );
 
+  const gridThemeClassName = isDarkMode ? 'ag-theme-quartz-dark' : 'ag-theme-quartz';
+
   return (
-    <div className='ag-theme-quartz'>
+    <div className={gridThemeClassName}>
       <AgGridReact<DailyGoalsRow>
         columnDefs={columnDefs}
         getRowId={({ data }) => data.Date}

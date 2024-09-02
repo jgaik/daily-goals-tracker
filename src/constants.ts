@@ -26,3 +26,7 @@ export const ViewOptions = [
     label: 'AgGrid',
   },
 ] as const;
+
+export enum LocalStorageKey {
+  UseDarkMode = 'use-dark-mode',
+}
