@@ -3,6 +3,8 @@ import './layout.scss';
 import type { Metadata } from 'next';
 import React, { type PropsWithChildren } from 'react';
 
+import { DialogContextProvider } from '@/contexts';
+
 import { ControlsProvider, Footer, Navigation } from './components';
 
 export const metadata: Metadata = {
@@ -16,9 +18,11 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<PropsWithChildren> = ({ children }) => (
   <html lang='en'>
     <body>
-      <Navigation />
-      <ControlsProvider>{children}</ControlsProvider>
-      <Footer />
+      <DialogContextProvider>
+        <Navigation />
+        <ControlsProvider>{children}</ControlsProvider>
+        <Footer />
+      </DialogContextProvider>
     </body>
   </html>
 );

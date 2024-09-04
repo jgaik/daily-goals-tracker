@@ -1,3 +1,5 @@
+import { ComponentPropsWithoutRef } from 'react';
+
 import { View } from './constants';
 
 export type DailyGoalsRow = {
@@ -30,4 +32,8 @@ export type ControlContextValue = {
   controls: Controls;
   showControl: (control: Control) => void;
   hideControl: (control: Control) => void;
+};
+
+export type DialogContextValue = {
+  showDialog: (props: ComponentPropsWithoutRef<'dialog'>) => void;
 };

@@ -3,14 +3,17 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 
-import { ColDef, ICellRendererParams } from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
+import { ColDef } from 'ag-grid-community';
+import { AgGridReact, CustomHeaderProps } from 'ag-grid-react';
 import { useMemo } from 'react';
 
 import { typedFetch } from '@/apis';
 import { useDarkMode } from '@/hooks';
 import { DailyGoalsRow, ViewProps } from '@/types';
-import { dateFromGoogleDate, isNil } from '@/utils';
+import { dateFromGoogleDate } from '@/utils';
+
+import { GoalCellRenderer } from './goal-cell-renderer';
+import { GoalHeaderComponent } from './goal-header-component';
 
 export const GridView: React.FC<ViewProps> = ({ goals }) => {
   const isDarkMode = useDarkMode();
@@ -25,27 +28,26 @@ export const GridView: React.FC<ViewProps> = ({ goals }) => {
         cellDataType: 'date',
         valueGetter: ({ data }) => data && dateFromGoogleDate(data.Date),
       },
-      ...goals.map<ColDef<DailyGoalsRow>>(
-        ({ Goal: goal, 'Starting date': startingDate }) => ({
-          field: goal,
-          valueGetter: ({ data }) =>
-            data &&
-            dateFromGoogleDate(startingDate) <= dateFromGoogleDate(data.Date)
-              ? data[goal]
-              : null,
-          cellRenderer: ({
-            value,
-          }: ICellRendererParams<DailyGoalsRow, boolean>) =>
-            isNil(value) ? null : (
-              <input type='checkbox' checked={value} readOnly />
-            ),
-        })
-      ),
+      ...goals.map<ColDef<DailyGoalsRow>>((goal) => ({
+        headerName: goal.Goal,
+        headerComponent: GoalHeaderComponent,
+        headerComponentParams: { goal },
+        valueGetter: ({ data }) =>
+          data &&
+          dateFromGoogleDate(goal['Starting date']) <=
+            dateFromGoogleDate(data.Date)
+            ? data[goal.Goal]
+            : null,
+        cellRenderer: GoalCellRenderer,
+        sortable: false,
+      })),
     ],
     [goals]
   );
 
-  const gridThemeClassName = isDarkMode ? 'ag-theme-quartz-dark' : 'ag-theme-quartz';
+  const gridThemeClassName = isDarkMode
+    ? 'ag-theme-quartz-dark'
+    : 'ag-theme-quartz';
 
   return (
     <div className={gridThemeClassName}>

@@ -1,8 +1,8 @@
-import { createContext, useMemo } from 'react';
-import { useContext } from 'react';
+'use client';
 
-import { Control, ControlContextValue } from './types';
-import { Controls } from './types';
+import { createContext, useContext, useMemo } from 'react';
+
+import { Control, ControlContextValue, Controls } from '@/types';
 
 const ControlsContext = createContext<ControlContextValue | null>(null);
 

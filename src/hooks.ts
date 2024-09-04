@@ -1,17 +1,17 @@
 'use client';
 
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 
 import { LocalStorageKey } from './constants';
 import { isNil } from './utils';
-
-const DARK_MODE_MEDIA = window.matchMedia('(prefers-color-scheme: dark)');
 
 export function useLocalStorage<T>(
   key: string
 ): [value: T | null, setValue: (value: T) => void, removeKey: () => void] {
   const [value, setValue] = useState<T | null>(() => {
-    const storedValue = localStorage.getItem(key);
+    if (typeof window === 'undefined') return null;
+
+    const storedValue = window.localStorage.getItem(key);
 
     return !isNil(storedValue) ? JSON.parse(storedValue) : null;
   });
@@ -19,7 +19,7 @@ export function useLocalStorage<T>(
   const setAndStoreValue = useCallback(
     (value: T) => {
       setValue(value);
-      localStorage.setItem(key, JSON.stringify(value));
+      window.localStorage.setItem(key, JSON.stringify(value));
 
       window.dispatchEvent(
         new CustomEvent('local-storage', {
@@ -65,7 +65,7 @@ export function useLocalStorage<T>(
   }, [key]);
 
   const removeKey = useCallback(() => {
-    localStorage.removeItem(key);
+    window.localStorage.removeItem(key);
 
     window.dispatchEvent(
       new CustomEvent('local-storage', {
@@ -81,20 +81,25 @@ export function useLocalStorage<T>(
 }
 
 export function useDarkMode() {
-  const [useDarkMode, setUseDarkMode] = useState(() => DARK_MODE_MEDIA.matches);
+  const darkModeMedia = useMemo(
+    () => window.matchMedia('(prefers-color-scheme: dark)'),
+    []
+  );
+
+  const [useDarkMode, setUseDarkMode] = useState(() => darkModeMedia.matches);
   const [localDarkMode] = useLocalStorage<boolean>(LocalStorageKey.UseDarkMode);
 
   useLayoutEffect(() => {
     const readDarkMode = () => {
-      setUseDarkMode(DARK_MODE_MEDIA.matches);
+      setUseDarkMode(darkModeMedia.matches);
     };
 
-    DARK_MODE_MEDIA.addEventListener('change', readDarkMode);
+    darkModeMedia.addEventListener('change', readDarkMode);
 
     return () => {
-      DARK_MODE_MEDIA.removeEventListener('change', readDarkMode);
+      darkModeMedia.removeEventListener('change', readDarkMode);
     };
-  }, []);
+  }, [darkModeMedia]);
 
   return localDarkMode ?? useDarkMode;
 }
