@@ -46,10 +46,16 @@ export const DialogContextProvider: React.FC<PropsWithChildren> = ({
       }
     };
 
+    const handleClose = () => {
+      setDialogProps({});
+    };
+
     dialogNode.addEventListener('click', handleClick);
+    dialogNode.addEventListener('close', handleClose);
 
     return () => {
       dialogNode.removeEventListener('click', handleClick);
+      dialogNode.removeEventListener('close', handleClose);
     };
   }, []);
 
@@ -57,7 +63,7 @@ export const DialogContextProvider: React.FC<PropsWithChildren> = ({
     <DialogContext.Provider value={contextValue}>
       {children}
       <dialog ref={dialogRef} {...dialogProps}>
-        <div ref={dialogContentRef}>{dialogChildren}</div>
+        {dialogChildren && <div ref={dialogContentRef}>{dialogChildren}</div>}
       </dialog>
     </DialogContext.Provider>
   );
