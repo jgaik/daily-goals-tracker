@@ -1,6 +1,6 @@
 import { SHEET_ID, SheetName } from "@/constants";
-import { DailyGoalsRow, GoalInfo, Nullable } from "@/types";
-import { isNil } from "@/utils";
+import { DailyGoalsRow, GoalInfo } from "@/types";
+import { isNil, Nullable } from "@yamori-shared/react-utilities";
 
 const GOOGLE_SHEETS_RESPONSE_REG_EX = /setResponse\(({.*})\)/;
 

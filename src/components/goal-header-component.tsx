@@ -1,3 +1,4 @@
+"use client";
 import { CustomHeaderProps } from "ag-grid-react";
 import { useLayoutEffect } from "react";
 

@@ -12,7 +12,7 @@ import { AgGridReact } from "ag-grid-react";
 import { useMemo } from "react";
 
 import { getDailyGoals } from "@/apis";
-import { DailyGoalsRow, ViewProps } from "@/types";
+import { DailyGoalsRow, GoalInfo } from "@/types";
 import { dateFromGoogleDate } from "@/utils";
 
 import { GoalCellRenderer } from "./goal-cell-renderer";
@@ -25,7 +25,7 @@ ModuleRegistry.registerModules([
   ValidationModule,
 ]);
 
-export const GridView: React.FC<ViewProps> = ({ goals }) => {
+export const GridView: React.FC<{ goals: GoalInfo[] }> = ({ goals }) => {
   const isDarkMode = useDarkMode();
 
   const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(

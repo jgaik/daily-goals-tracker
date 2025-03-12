@@ -1,11 +1,11 @@
-import { GoalInfo } from '@/types';
-import { dateFromGoogleDate, getTypedObjectKeys } from '@/utils';
+"use client";
+import { GoalInfo } from "@/types";
+import { dateFromGoogleDate } from "@/utils";
+import { getTypedObjectKeys } from "@yamori-shared/react-utilities";
 
 const FORMATTERS: Partial<Record<keyof GoalInfo, (value: any) => string>> = {
-  Completion: (value: number) => `${Math.round(100 * value)}%`,
-  'Starting date': (value: string) =>
+  "Starting date": (value: string) =>
     dateFromGoogleDate(value).toLocaleDateString(),
-  'Completed today': (value: boolean) => (value ? 'Yes' : 'No'),
 };
 
 export const GoalInfoPreview: React.FC<GoalInfo> = (goal) => {

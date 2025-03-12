@@ -1,6 +1,7 @@
-import { getGoalsInfo } from "@/apis";
+"use client";
 
-import { GridView } from "./components";
+import { getGoalsInfo } from "@/apis";
+import { GridView } from "@/components";
 import { use } from "react";
 
 const goalsPromise = getGoalsInfo();

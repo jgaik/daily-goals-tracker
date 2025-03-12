@@ -1,9 +1,7 @@
-import "@yamori-design/styles/dist/global.css";
-
+import { LayoutWrapper } from "@/components";
 import type { Metadata } from "next";
 import React, { type PropsWithChildren } from "react";
-
-import { LayoutWrapper } from "./components";
+import "@yamori-design/styles/dist/global.css";
 
 export const metadata: Metadata = {
   description: "Page for displaying my daily goals tracker",
