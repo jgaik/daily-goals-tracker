@@ -57,9 +57,7 @@ export const GridView: React.FC<ViewProps> = ({ goals }) => {
 
   return (
     <AgGridReact<DailyGoalsRow>
-      theme={themeQuartz.withParams({
-        browserColorScheme: isDarkMode ? "dark" : "light",
-      })}
+      theme={themeQuartz}
       columnDefs={columnDefs}
       getRowId={({ data }) => data.Date}
       onGridReady={({ api }) => {
