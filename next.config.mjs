@@ -2,14 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  redirects: () =>
-    Promise.resolve([
-      {
-        source: '/',
-        destination: '/goals-tracker',
-        permanent: true,
-      },
-    ]),
+  output: 'export'
 };
 
 export default nextConfig;

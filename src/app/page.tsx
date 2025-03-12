@@ -1,5 +1,12 @@
-const Home: React.FC = () => {
-  return <div>Home</div>;
-};
+import { getGoalsInfo } from "@/apis";
 
-export default Home;
+import { GridView } from "./components";
+import { use } from "react";
+
+const goalsPromise = getGoalsInfo();
+
+export default function Home() {
+  const goals = use(goalsPromise);
+
+  return <GridView goals={goals} />;
+}

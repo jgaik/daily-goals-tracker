@@ -1,6 +1,6 @@
-import { SHEET_ID, SheetName } from '@/constants';
-import { DailyGoalsRow, GoalInfo, Nullable } from '@/types';
-import { isNil } from '@/utils';
+import { SHEET_ID, SheetName } from "@/constants";
+import { DailyGoalsRow, GoalInfo, Nullable } from "@/types";
+import { isNil } from "@/utils";
 
 const GOOGLE_SHEETS_RESPONSE_REG_EX = /setResponse\(({.*})\)/;
 
@@ -47,15 +47,16 @@ async function parseGoogleSheetResponse(
   );
 }
 
-export const GET = {
-  dailyGoals: (): Promise<DailyGoalsRow[]> =>
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`).then(
-      parseGoogleSheetResponse
-    ),
-  goalsInfo: (): Promise<GoalInfo[]> =>
-    fetch(
-      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Completion}`
-    )
-      .then<GoalInfo[]>(parseGoogleSheetResponse)
-      .then((res) => res.filter((goal) => !!goal['Starting date'])),
-} as const;
+export function getDailyGoals(): Promise<DailyGoalsRow[]> {
+  return fetch(
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`
+  ).then(parseGoogleSheetResponse);
+}
+
+export function getGoalsInfo(): Promise<GoalInfo[]> {
+  return fetch(
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Completion}`
+  )
+    .then<GoalInfo[]>(parseGoogleSheetResponse)
+    .then((res) => res.filter((goal) => !!goal["Starting date"]));
+}
