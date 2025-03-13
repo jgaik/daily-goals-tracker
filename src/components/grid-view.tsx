@@ -17,7 +17,6 @@ import { dateFromGoogleDate } from "@/utils";
 
 import { GoalCellRenderer } from "./goal-cell-renderer";
 import { GoalHeaderComponent } from "./goal-header-component";
-import { useDarkMode } from "@/hooks";
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -26,8 +25,6 @@ ModuleRegistry.registerModules([
 ]);
 
 export const GridView: React.FC<{ goals: GoalInfo[] }> = ({ goals }) => {
-  const isDarkMode = useDarkMode();
-
   const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(
     () => [
       {
