@@ -49,13 +49,13 @@ async function parseGoogleSheetResponse(
 
 export function getDailyGoals(): Promise<DailyGoalsRow[]> {
   return fetch(
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Tracker}`
   ).then(parseGoogleSheetResponse);
 }
 
 export function getGoalsInfo(): Promise<GoalInfo[]> {
   return fetch(
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Completion}`
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Goals}`
   )
     .then<GoalInfo[]>(parseGoogleSheetResponse)
     .then((res) => res.filter((goal) => !!goal["Starting date"]));

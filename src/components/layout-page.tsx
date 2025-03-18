@@ -1,7 +1,7 @@
 "use client";
 
+import { ApiDataProvider } from "@/contexts";
 import {
-  DialogProvider,
   NavigationBarLayout,
   useYamoriTheme,
 } from "@yamori-design/react-components";
@@ -14,7 +14,7 @@ export const LayoutPage: React.FC<PropsWithChildren> = ({ children }) => {
     <html data-ag-theme-mode={yamoriTheme}>
       <body>
         <NavigationBarLayout>
-          <DialogProvider>{children}</DialogProvider>
+          <ApiDataProvider>{children}</ApiDataProvider>
         </NavigationBarLayout>
       </body>
     </html>
