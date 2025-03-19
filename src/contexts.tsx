@@ -21,9 +21,18 @@ export const ApiDataProvider: React.FC<PropsWithChildren> = ({ children }) => (
 );
 
 export function useDailyGaols() {
-  return use(useDailyGaolsPromise());
+  const dailyGaolsPromise = useDailyGaolsPromise();
+  return use(dailyGaolsPromise);
 }
 
 export function useGoalsInfo() {
-  return use(useGoalsInfoPromise());
+  const goalsInfoPromise = useGoalsInfoPromise();
+  return use(goalsInfoPromise);
+}
+
+export function useApiData() {
+  const dailyGoals = useDailyGaols();
+  const goalsInfo = useGoalsInfo();
+
+  return { dailyGoals, goalsInfo };
 }

@@ -1,5 +1,5 @@
 import { SHEET_ID, SheetName } from "@/constants";
-import { DailyGoalsRow, GoalInfo } from "@/types";
+import { DailyGoals, GoalInfo } from "@/types";
 import { isNil, Nullable } from "@yamori-shared/react-utilities";
 
 const GOOGLE_SHEETS_RESPONSE_REG_EX = /setResponse\(({.*})\)/;
@@ -47,7 +47,7 @@ async function parseGoogleSheetResponse(
   );
 }
 
-export function getDailyGoals(): Promise<DailyGoalsRow[]> {
+export function getDailyGoals(): Promise<DailyGoals[]> {
   return fetch(
     `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Tracker}`
   ).then(parseGoogleSheetResponse);

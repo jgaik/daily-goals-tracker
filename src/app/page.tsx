@@ -1,17 +1,16 @@
 "use client";
 
 import { GoalCellRenderer, Grid } from "@/components";
-import { useDailyGaols, useGoalsInfo } from "@/contexts";
-import { DailyGoalsRow } from "@/types";
+import { useApiData } from "@/contexts";
+import { DailyGoals } from "@/types";
 import { dateFromGoogleDate } from "@/utils";
 import { ColDef } from "ag-grid-community";
 import { useMemo } from "react";
 
 export default function Home() {
-  const goals = useGoalsInfo();
-  const dailyGoals = useDailyGaols();
+  const { dailyGoals, goalsInfo } = useApiData();
 
-  const columnDefs = useMemo<ColDef<DailyGoalsRow>[]>(
+  const columnDefs = useMemo<ColDef<DailyGoals>[]>(
     () => [
       {
         headerName: "Date",
@@ -21,7 +20,7 @@ export default function Home() {
         cellDataType: "date",
         valueGetter: ({ data }) => data && dateFromGoogleDate(data.Date),
       },
-      ...goals.map<ColDef<DailyGoalsRow>>((goal) => ({
+      ...goalsInfo.map<ColDef<DailyGoals>>((goal) => ({
         headerName: goal.Goal,
         headerComponentParams: { goal },
         valueGetter: ({ data }) =>
@@ -34,11 +33,11 @@ export default function Home() {
         sortable: false,
       })),
     ],
-    [goals]
+    [goalsInfo]
   );
 
   return (
-    <Grid<DailyGoalsRow>
+    <Grid<DailyGoals>
       columnDefs={columnDefs}
       getRowId={({ data }) => data.Date}
       rowData={dailyGoals}

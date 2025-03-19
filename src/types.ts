@@ -1,4 +1,4 @@
-export type DailyGoalsRow = {
+export type DailyGoals = {
   Date: string;
 } & Record<string, string>;
 
