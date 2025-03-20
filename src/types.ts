@@ -1,8 +1,9 @@
 export type DailyGoals = {
-  Date: string;
-} & Record<string, string>;
+  Date: Date;
+  Comments?: string;
+} & Record<string, boolean>;
 
 export type GoalInfo = {
   Goal: string;
-  "Starting date": string;
+  "Starting date": Date;
 };

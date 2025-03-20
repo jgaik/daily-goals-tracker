@@ -1,20 +1,45 @@
 "use client";
 
+import { Checkbox } from "@yamori-design/react-components";
+import { isNil } from "@yamori-shared/react-utilities";
 import {
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
+  ColumnAutoSizeModule,
+  ICellRendererParams,
   ModuleRegistry,
+  PinnedRowModule,
+  RowAutoHeightModule,
   themeQuartz,
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";
+import "./grid.scss";
 
 ModuleRegistry.registerModules([
+  ColumnAutoSizeModule,
   ClientSideRowModelModule,
   ClientSideRowModelApiModule,
+  PinnedRowModule,
+  RowAutoHeightModule,
   ValidationModule,
 ]);
 
-export const Grid = <T,>(props: Omit<AgGridReactProps<T>, "theme">) => {
-  return <AgGridReact<T> theme={themeQuartz} {...props} />;
+const COMPONENTS = {
+  agCheckboxCellRenderer: ({ value }: ICellRendererParams<any, boolean>) =>
+    isNil(value) ? null : <Checkbox checked={value} />,
+};
+
+export const Grid = <T,>({
+  className = "",
+  ...props
+}: Omit<AgGridReactProps<T>, "theme" | "components">) => {
+  return (
+    <AgGridReact<T>
+      className={`grid ${className}`}
+      theme={themeQuartz}
+      components={COMPONENTS}
+      {...props}
+    />
+  );
 };

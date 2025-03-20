@@ -13,6 +13,15 @@ type GoogleSheetResponse = {
   };
 };
 
+function parseGoogleSheetRowValue(rowValue: string | boolean) {
+  if (typeof rowValue === "boolean" || !rowValue.startsWith("Date("))
+    return rowValue;
+
+  const [year, month, day] = rowValue.slice("Date(".length, -1).split(",");
+
+  return new Date(`${year}-${parseInt(month, 10) + 1}-${day}`);
+}
+
 async function parseGoogleSheetResponse(
   response: Response
 ): Promise<Array<any>> {
@@ -40,7 +49,7 @@ async function parseGoogleSheetResponse(
     row.reduce(
       (ret, curr, currIdx) => ({
         ...ret,
-        [columns[currIdx]]: curr.v,
+        [columns[currIdx]]: parseGoogleSheetRowValue(curr.v),
       }),
       {}
     )
@@ -56,7 +65,5 @@ export function getDailyGoals(): Promise<DailyGoals[]> {
 export function getGoalsInfo(): Promise<GoalInfo[]> {
   return fetch(
     `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${SheetName.Goals}`
-  )
-    .then<GoalInfo[]>(parseGoogleSheetResponse)
-    .then((res) => res.filter((goal) => !!goal["Starting date"]));
+  ).then<GoalInfo[]>(parseGoogleSheetResponse);
 }
