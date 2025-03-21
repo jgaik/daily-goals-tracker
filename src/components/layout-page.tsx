@@ -23,6 +23,9 @@ export const LayoutPage: React.FC<PropsWithChildren> = ({ children }) => {
             <NextLink passHref legacyBehavior href="/goals" key="goals">
               <Link>Goals</Link>
             </NextLink>,
+            <NextLink passHref legacyBehavior href="/sources" key="sources">
+              <Link>Sources</Link>
+            </NextLink>,
           ]}
         >
           <ApiDataProvider>{children}</ApiDataProvider>

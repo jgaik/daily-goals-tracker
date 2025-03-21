@@ -35,8 +35,12 @@ export default function Goals() {
       {
         headerName: "Completion",
         valueGetter: ({ data }) =>
-          data &&
-          `${Math.floor((100 * data.completedDays) / data.activeDays)}%`,
+          data && Math.floor((100 * data.completedDays) / data.activeDays),
+        cellRenderer: "progressCellRenderer",
+      },
+      {
+        headerName: "Completed days",
+        field: "completedDays",
       },
       {
         headerName: "Active Days",

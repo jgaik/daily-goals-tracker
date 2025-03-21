@@ -14,6 +14,7 @@ import {
   ValidationModule,
 } from "ag-grid-community";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";
+import { ProgressCellRenderer } from "./progress-cell-renderer";
 import "./grid.scss";
 
 ModuleRegistry.registerModules([
@@ -28,6 +29,7 @@ ModuleRegistry.registerModules([
 const COMPONENTS = {
   agCheckboxCellRenderer: ({ value }: ICellRendererParams<any, boolean>) =>
     isNil(value) ? null : <Checkbox checked={value} />,
+  progressCellRenderer: ProgressCellRenderer,
 };
 
 export const Grid = <T,>({
