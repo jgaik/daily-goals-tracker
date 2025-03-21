@@ -3,11 +3,12 @@
 import { ApiDataProvider } from "@/contexts";
 import {
   Link,
+  Loading,
   NavigationBarLayout,
   useYamoriTheme,
 } from "@yamori-design/react-components";
 import NextLink from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 
 export const LayoutPage: React.FC<PropsWithChildren> = ({ children }) => {
   const yamoriTheme = useYamoriTheme();
@@ -27,8 +28,11 @@ export const LayoutPage: React.FC<PropsWithChildren> = ({ children }) => {
               <Link>Sources</Link>
             </NextLink>,
           ]}
+          githubHref="https://github.com/jgaik/daily-goals-tracker"
         >
-          <ApiDataProvider>{children}</ApiDataProvider>
+          <ApiDataProvider>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </ApiDataProvider>
         </NavigationBarLayout>
       </body>
     </html>
