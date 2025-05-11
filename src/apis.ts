@@ -17,9 +17,12 @@ function parseGoogleSheetRowValue(rowValue: string | boolean) {
   if (typeof rowValue === "boolean" || !rowValue.startsWith("Date("))
     return rowValue;
 
-  const [year, month, day] = rowValue.slice("Date(".length, -1).split(",");
+  const [year, month, day] = rowValue
+    .slice("Date(".length, -1)
+    .split(",")
+    .map((val) => parseInt(val, 10));
 
-  return new Date(`${year}-${parseInt(month, 10) + 1}-${day}`);
+  return new Date(year, month, day);
 }
 
 async function parseGoogleSheetResponse(

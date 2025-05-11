@@ -58,14 +58,13 @@ export default function Goals() {
         return {
           name: goalInfo.Goal,
           startingDate,
-          activeDays: Math.floor(
+          activeDays: Math.ceil(
             (Date.now() - startingDate.getTime()) / (1000 * 60 * 60 * 24) || 1
           ),
-          completedDays:
-            dailyGoals.length -
-            dailyGoals.findIndex(
-              ({ Date }) => Date === goalInfo["Starting date"]
-            ),
+          completedDays: dailyGoals.reduce(
+            (acc, goal) => (goal[goalInfo.Goal] ? acc + 1 : acc),
+            0
+          ),
         };
       }),
     [dailyGoals, goalsInfo]
